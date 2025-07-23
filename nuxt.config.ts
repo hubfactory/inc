@@ -9,5 +9,19 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/test-utils',
     '@nuxt/ui'
-  ]
+  ],
+  css: [
+    '~/assets/css/normalize.css',
+    '~/assets/css/base.scss'
+  ],
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap'
+        }
+      ]
+    }
+  }
 })
