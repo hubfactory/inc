@@ -14,6 +14,15 @@ export default defineNuxtConfig({
     '~/assets/css/normalize.css',
     '~/assets/css/base.scss'
   ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "~/assets/css/variables.scss" as *;'
+        }
+      }
+    }
+  },
   app: {
     head: {
       link: [

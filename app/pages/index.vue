@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { CodeXml, ScissorsLineDashed, SmilePlus, ChevronRight } from 'lucide-vue-next';
+
 // NEWS・BLOGのダミーデータ
 const newsList = [
   {
@@ -47,39 +49,58 @@ const blogList = [
   <div class="top">
     <!-- ヒーローイメージ -->
     <section class="hero">
-      <div class="hero-content">
-        <h1>HUBFACTORY</h1>
-        <p>システム開発・美容室・コワーキングスペースで<br>人と社会をつなぐ</p>
-      </div>
+      <HeroSynergy
+        :colors="{ system:'#1e90ff', salon:'#ff4d6d', cowork:'#00c49a' }"
+        headline="システムとリアルの融合で<br>社会に価値を届ける"
+        subline="Web System & Salon & Coworking"
+      >
+        <template #logo>
+          <img src="/images/logo-white.png" alt="HUBFACTORY" class="logo" width="300px">
+        </template>
+      </HeroSynergy>
     </section>
 
-    <!-- BUSINESS紹介 -->
-    <section class="business">
+    <!-- SERVICE紹介 -->
+    <section class="section-wrapper">
       <div class="container">
-        <h2>BUSINESS</h2>
-        <div class="business-list">
-          <div class="business-item">
-            <h3>システム開発</h3>
-            <p>Webシステム・アプリ開発、ITコンサルティング</p>
+        <div class="section-header">
+          <h2>Our Services</h2>
+        </div>
+        <div class="service-list">
+          <div class="service-item">
+            <div class="item-icon">
+              <CodeXml :size="24" />
+            </div>
+            <h3>System Development</h3>
+            <p>We provide system development services and applications.</p>
           </div>
-          <div class="business-item">
-            <h3>美容室</h3>
-            <p>都内を中心に複数店舗を展開</p>
+          <div class="service-item">
+            <div class="item-icon">
+              <ScissorsLineDashed :size="24" />
+            </div>
+            <h3>Hair Design Salon</h3>
+            <p>A hideaway-like beauty salon with one-on-one service</p>
           </div>
-          <div class="business-item">
-            <h3>コワーキングスペース</h3>
-            <p>快適なワークスペースを提供</p>
+          <div class="service-item">
+            <div class="item-icon">
+              <SmilePlus :size="24" />
+            </div>
+            <h3>Coworking Space</h3>
+            <p>A comfortable workspace for your business</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- NEWS最新3件 -->
-    <section class="news">
+    <section class="section-wrapper">
       <div class="container">
         <div class="section-header">
-          <h2>NEWS</h2>
-          <NuxtLink to="/news" class="more-btn">more</NuxtLink>
+          <h2>News</h2>
+          <NuxtLink to="/news" class="more-btn">
+            <span>more</span>
+            <ChevronRight :size="24" />
+          </NuxtLink>
         </div>
         <div class="card-list">
           <div v-for="news in newsList" :key="news.title" class="card">
@@ -95,11 +116,14 @@ const blogList = [
     </section>
 
     <!-- BLOG最新3件 -->
-    <section class="blog">
+    <section class="section-wrapper">
       <div class="container">
         <div class="section-header">
-          <h2>エンジニアブログ</h2>
-          <NuxtLink to="/eng" class="more-btn">more</NuxtLink>
+          <h2>Blog</h2>
+          <NuxtLink to="/eng" class="more-btn">
+            <span>more</span>
+            <ChevronRight :size="24" />
+          </NuxtLink>
         </div>
         <div class="card-list">
           <div v-for="blog in blogList" :key="blog.title" class="card">
@@ -115,15 +139,17 @@ const blogList = [
     </section>
 
     <!-- 会社概要 -->
-    <section class="company">
+    <section class="section-wrapper">
       <div class="container">
-        <h2>会社概要</h2>
+        <div class="section-header">
+          <h2>Company Overview</h2>
+        </div>
         <table class="company-table">
           <tbody>
             <tr><th>会社名</th><td>株式会社HUBFACTORY</td></tr>
-            <tr><th>所在地</th><td>東京都渋谷区○○○○</td></tr>
-            <tr><th>設立</th><td>2015年4月</td></tr>
-            <tr><th>代表</th><td>山田 太郎</td></tr>
+            <tr><th>所在地</th><td>新潟県上越市</td></tr>
+            <tr><th>設立</th><td>2014年5月</td></tr>
+            <tr><th>代表</th><td>太田 昌幸</td></tr>
             <tr><th>事業内容</th><td>システム開発、美容室運営、コワーキングスペース運営</td></tr>
           </tbody>
         </table>
@@ -132,102 +158,79 @@ const blogList = [
   </div>
 </template>
 
-<style lang="scss">
-.top {
-  font-family: 'Noto Sans JP', sans-serif;
-  color: #222;
-  background: #fff;
-}
+<style lang="scss" scoped>
 .hero {
-  background: linear-gradient(120deg, #009966 60%, #fff 100%);
-  color: #fff;
-  text-align: center;
-  padding: 4.8rem 1.6rem 3.2rem 1.6rem;
-  .hero-content {
-    max-width: 600px;
-    margin: 0 auto;
-    h1 {
-      font-size: 4rem;
-      font-weight: 700;
-      margin-bottom: 1.6rem;
-      letter-spacing: 0.16em;
-    }
-    p {
-      font-size: 1.76rem;
-      line-height: 2.72;
-    }
+  margin-top: 32px;
+  width: 100%;
+
+  @media screen and (width <= $media-sp) {
+    margin-top: 0;
   }
 }
-.business {
-  padding: 4rem 1.6rem 2.4rem 1.6rem;
-  background: #f8f8f8;
-  h2 {
-    color: #009966;
-    font-size: 2.08rem;
-    margin-bottom: 1.92rem;
-    font-weight: 700;
+
+.section-wrapper {
+  padding: 6.4rem 3.2rem;
+  position: relative;
+
+  @media screen and (width <= $media-sp) {
+    padding: 4.0rem 2.0rem;
   }
-  .business-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.92rem;
-    @media (min-width: 700px) {
-      flex-direction: row;
-      justify-content: center;
-    }
-  }
-  .business-item {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    padding: 1.92rem;
-    flex: 1;
-    min-width: 180px;
-    text-align: center;
-    h3 {
-      color: #009966;
-      font-size: 1.76rem;
-      margin-bottom: 0.8rem;
-      font-weight: 700;
-    }
-    p {
-      font-size: 1.57rem;
-      color: #555;
-    }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 1px;
+    background-color: $color-separator;
   }
 }
+
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.12rem;
+  margin-bottom: 3.2rem;
+
+  @media screen and (width <= $media-sp) {
+    margin-bottom: 1.6rem;
+  }
+
   h2 {
-    color: #009966;
-    font-size: 1.92rem;
-    font-weight: 700;
+    font-size: 2.4rem;
+    font-weight: bold;
   }
   .more-btn {
-    color: #009966;
-    font-size: 1.57rem;
+    color: $color-primary;
+    font-size: 2.0rem;
     text-decoration: underline;
-    font-weight: 500;
+    font-weight: bold;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.2rem;
     &:hover {
-      opacity: 0.7;
+      text-decoration: none;
     }
   }
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .card-list {
   display: flex;
-  flex-direction: column;
-  gap: 1.92rem;
-  @media (min-width: 700px) {
-    flex-direction: row;
+  gap: 3.2rem;
+  @media screen and (width <= $media-sp) {
+    flex-direction: column;
   }
 }
+
 .card {
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   overflow: hidden;
   flex: 1;
   min-width: 180px;
@@ -236,64 +239,100 @@ const blogList = [
   .card-img {
     width: 100%;
     height: 192px;
+    border-radius: 1rem;
+    overflow: hidden;
     object-fit: cover;
     background: #eee;
   }
   .card-body {
-    padding: 1.28rem 1.6rem 1.6rem 1.6rem;
+    padding: 2.0rem 0;
     display: flex;
     flex-direction: column;
-    gap: 0.48rem;
+    gap: 0.4rem;
+
+    @media screen and (width <= $media-sp) {
+      padding: 1.2rem 0;
+    }
   }
   .card-date {
-    font-size: 1.47rem;
-    color: #009966;
-    font-weight: 500;
+    font-size: 1.6rem;
+    color: $color-gray;
   }
   .card-title {
-    font-size: 1.68rem;
-    font-weight: 700;
-    margin-bottom: 0.32rem;
+    font-size: 2.0rem;
+    font-weight: bold;
+
+    @media screen and (width <= $media-sp) {
+      font-size: 1.8rem;
+    }
   }
   .card-desc {
-    font-size: 1.55rem;
-    color: #555;
+    font-size: 1.6rem;
+    color: $color-primary;
   }
 }
-.company {
-  padding: 4rem 1.6rem 3.2rem 1.6rem;
-  h2 {
-    color: #009966;
-    font-size: 1.92rem;
-    font-weight: 700;
-    margin-bottom: 1.92rem;
+
+.service-list {
+  display: flex;
+  gap: 3.2rem;
+  @media screen and (width <= $media-sp) {
+    flex-direction: column;
+    gap: 2.0rem;
   }
-  .company-table {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    th, td {
-      border: 1px solid #e0e0e0;
-      padding: 1.12rem 1.28rem;
-      font-size: 1.57rem;
+  .service-item {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 3.2rem;
+    flex: 1;
+    min-width: 180px;
+
+    @media screen and (width <= $media-sp) {
+      padding: 1.6rem;
     }
-    th {
-      background: #f5f5f5;
-      color: #009966;
-      font-weight: 700;
-      text-align: left;
-      width: 192px;
+
+    h3 {
+      font-size: 2.4rem;
+      margin-top: 0.4rem;
+      font-weight: bold;
+
+      @media screen and (width <= $media-sp) {
+        font-size: 1.8rem;
+      }
     }
-    td {
-      background: #fff;
+    p {
+      font-size: 1.6rem;
+      margin-top: 0.8rem;
+      color: $color-primary;
     }
   }
 }
-.container {
-  max-width: 1200px;
+
+.company-table {
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
-  padding-left: 1.6rem;
-  padding-right: 1.6rem;
+  border-collapse: collapse;
+  border-bottom: 1px solid $color-border;
+  th, td {
+    border-top: 1px solid $color-border;
+    padding: 2.4rem;
+    font-weight: normal;
+
+    @media screen and (width <= $media-sp) {
+      padding: 1.6rem;
+    }
+  }
+  th {
+    background: $color-bg-gray;
+    text-align: left;
+    width: 200px;
+    @media screen and (width <= $media-sp) {
+      width: 120px;
+    }
+  }
+  td {
+    background: #fff;
+  }
 }
-</style> 
+</style>

@@ -26,7 +26,7 @@ const formatDate = (dateStr: string) => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .news-detail-page {
   font-family: 'Noto Sans JP', sans-serif;
   .news-title {

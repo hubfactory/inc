@@ -1,5 +1,11 @@
 <script setup lang="ts">
 // ヘッダー・フッターコンポーネントのimport文を削除（auto import対応）
+
+// consts
+import {
+  PAGE_SEGMENT,
+  SHOW_LANGUAGE_SWITCH_PAGE,
+} from '@/constants/common';
 </script>
 
 <template>

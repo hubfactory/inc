@@ -32,7 +32,7 @@ const formatDate = (dateStr: string) => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .news-list-page {
   font-family: 'Noto Sans JP', sans-serif;
   .page-title {
