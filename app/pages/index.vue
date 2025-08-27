@@ -38,7 +38,7 @@ const blogList = [
         subline="We connect the dots between technology, beauty, and community — delivering value through our three core pillars."
       >
         <template #logo>
-          <img src="/images/logo-white.png" alt="HUBFACTORY" class="logo" width="280px">
+          <img src="/images/logo-white.png" alt="HUBFACTORY" class="hero-logo">
         </template>
       </HeroSynergy>
     </section>
@@ -158,9 +158,19 @@ const blogList = [
 .hero {
   margin-top: 32px;
   width: 100%;
+  padding: 0 3.2rem;
 
   @media screen and (width <= $media-sp) {
     margin-top: 0;
+    padding: 0;
+  }
+
+  .hero-logo {
+    width: 280px;
+
+    @media screen and (width <= $media-sp) {
+      width: 160px;
+    }
   }
 }
 
@@ -283,16 +293,16 @@ const blogList = [
     flex: 1;
     min-width: 180px;
 
-    @media screen and (width <= $media-sp) {
-      padding: 1.6rem;
-    }
-
     > .item-inner {
       text-decoration: none;
       display: block;
       padding: 3.2rem;
       height: 100%;
       position: relative;
+
+      @media screen and (width <= $media-sp) {
+        padding: 2.0rem;
+      }
     }
 
     .anchor-arrow {

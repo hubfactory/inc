@@ -330,6 +330,10 @@ onBeforeUnmount(() => {
   justify-content: center;
   pointer-events: none;
   padding: 0 3.2rem;
+
+  @media screen and (width <= $media-sp) {
+    padding: 0 0.4rem;
+  }
 }
 .headline {
   color: #fff;
@@ -337,12 +341,23 @@ onBeforeUnmount(() => {
   font-weight: bold;
   letter-spacing: 0.1em;
   padding-left: 3.2rem;
+
+  @media screen and (width <= $media-sp) {
+    font-size: 1.6rem;
+    padding: 0 1.6rem;
+  }
 }
 .subline {
   margin-top: 0.5rem;
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.4rem;
   padding-left: 3.2rem;
+  line-height: 1.4;
+
+  @media screen and (width <= $media-sp) {
+    font-size: 1.2rem;
+    padding: 0 1.6rem;
+  }
 }
 .hero-section {
   background: radial-gradient(1200px 600px at 50% 40%, rgba(255,255,255,0.08), rgba(0,0,0,0)),
