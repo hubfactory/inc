@@ -12,7 +12,9 @@ const navLinks = [
   <header class="header">
     <div class="header-inner">
       <div class="header-logo">
-        <NuxtLink to="/">HUBFACTORY</NuxtLink>
+        <NuxtLink to="/">
+          HUBFACTORY
+        </NuxtLink>
       </div>
       <nav class="header-nav">
         <ul>
@@ -29,21 +31,20 @@ const navLinks = [
 .header {
   width: 100%;
   background: #fff;
-  border-bottom: 1px solid #e0e0e0;
-  font-family: 'Noto Sans JP', sans-serif;
+  padding: 1.6rem 3.2rem;
+  border-bottom: 1px solid $color-border;
   .header-inner {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.8rem 1.6rem;
   }
   .header-logo {
     font-weight: bold;
     font-size: 2.4rem;
-    color: #009966;
-    letter-spacing: 0.16em;
+    color: $color-primary;
+    letter-spacing: 0.1em;
     a {
       color: inherit;
       text-decoration: none;
@@ -52,17 +53,13 @@ const navLinks = [
   .header-nav ul {
     display: flex;
     gap: 2.4rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
   }
   .header-nav a {
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
     transition: color 0.2s;
+    color: $color-gray;
+    font-weight: bold;
     &:hover {
-      color: #009966;
+      color: $color-primary;
     }
   }
 }

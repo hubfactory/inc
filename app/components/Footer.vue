@@ -21,15 +21,13 @@ const getCurrentYear = () => {
 <style lang="scss">
 .footer {
   width: 100%;
-  background: #f5f5f5;
-  color: #333;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1.52rem;
-  border-top: 1px solid #e0e0e0;
+  background: $color-bg-gray;
+  color: $color-gray;
+  border-top: 1px solid $color-border;
   .footer-inner {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1.92rem 1.6rem;
+    padding: 2.4rem 1.6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -37,12 +35,11 @@ const getCurrentYear = () => {
   }
   .footer-company {
     font-weight: bold;
-    color: #009966;
-    letter-spacing: 0.16em;
+    color: $color-primary;
+    letter-spacing: 0.2em;
   }
   .footer-copyright {
-    font-size: 1.44rem;
-    color: #888;
+    font-size: 1.4rem;
   }
 }
 </style> 

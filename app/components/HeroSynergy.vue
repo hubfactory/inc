@@ -327,30 +327,22 @@ onBeforeUnmount(() => {
   inset: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   pointer-events: none;
+  padding: 0 3.2rem;
 }
 .headline {
-  margin-top: 0.5rem;
   color: #fff;
-  font-size: 1.875rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  text-align: center;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-}
-@media (min-width: 768px) {
-  .headline { font-size: 3rem; }
+  font-size: 2.4rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  padding-left: 3.2rem;
 }
 .subline {
   margin-top: 0.5rem;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.875rem;
-  text-align: center;
-}
-@media (min-width: 768px) {
-  .subline { font-size: 1.125rem; }
+  font-size: 1.4rem;
+  padding-left: 3.2rem;
 }
 .hero-section {
   background: radial-gradient(1200px 600px at 50% 40%, rgba(255,255,255,0.08), rgba(0,0,0,0)),

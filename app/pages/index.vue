@@ -1,27 +1,10 @@
 <script setup lang="ts">
 import { CodeXml, ScissorsLineDashed, SmilePlus, ChevronRight } from 'lucide-vue-next';
 
-// NEWS・BLOGのダミーデータ
-const newsList = [
-  {
-    title: '新サービスリリースのお知らせ',
-    description: '株式会社HUBFACTORYは新しいサービスを開始しました。',
-    image: '/news1.jpg',
-    publishedAt: '2024-06-01'
-  },
-  {
-    title: '夏季休業のお知らせ',
-    description: '夏季休業期間についてご案内いたします。',
-    image: '/news2.jpg',
-    publishedAt: '2024-05-20'
-  },
-  {
-    title: 'オフィス移転のお知らせ',
-    description: '本社オフィスを移転いたしました。',
-    image: '/news3.jpg',
-    publishedAt: '2024-05-01'
-  }
-]
+// NEWS（最新3件）
+const { data: newsList } = await useAsyncData('top-news', () =>
+  queryCollection('news').order('publishedAt', 'DESC').limit(3).all()
+)
 
 const blogList = [
   {
@@ -50,12 +33,12 @@ const blogList = [
     <!-- ヒーローイメージ -->
     <section class="hero">
       <HeroSynergy
-        :colors="{ system:'#1e90ff', salon:'#ff4d6d', cowork:'#00c49a' }"
-        headline="システムとリアルの融合で<br>社会に価値を届ける"
-        subline="Web System & Salon & Coworking"
+        :colors="{ system:'#4989c7', salon:'#c9566b', cowork:'#58b5a1' }"
+        headline="システムとリアルの融合で社会に価値を届ける"
+        subline="We connect the dots between technology, beauty, and community — delivering value through our three core pillars."
       >
         <template #logo>
-          <img src="/images/logo-white.png" alt="HUBFACTORY" class="logo" width="300px">
+          <img src="/images/logo-white.png" alt="HUBFACTORY" class="logo" width="280px">
         </template>
       </HeroSynergy>
     </section>
@@ -68,25 +51,32 @@ const blogList = [
         </div>
         <div class="service-list">
           <div class="service-item">
-            <div class="item-icon">
-              <CodeXml :size="24" />
+            <div class="item-inner">
+              <div class="item-icon">
+                <CodeXml :size="24" />
+              </div>
+              <h3>System Development</h3>
+              <p>We provide system development services and applications.</p>
             </div>
-            <h3>System Development</h3>
-            <p>We provide system development services and applications.</p>
           </div>
           <div class="service-item">
-            <div class="item-icon">
-              <ScissorsLineDashed :size="24" />
-            </div>
-            <h3>Hair Design Salon</h3>
-            <p>A hideaway-like beauty salon with one-on-one service</p>
+            <a href="https://nicoplushair.com/" target="_blank" rel="noopener noreferrer" class="item-inner">
+              <div class="item-icon">
+                <ScissorsLineDashed :size="24" />
+              </div>
+              <h3>Hair Salon : hair design nico</h3>
+              <p>A hideaway-like beauty salon with one-on-one service</p>
+              <ChevronRight :size="24" class="anchor-arrow" />
+            </a>
           </div>
           <div class="service-item">
-            <div class="item-icon">
-              <SmilePlus :size="24" />
+            <div class="item-inner">
+              <div class="item-icon">
+                <SmilePlus :size="24" />
+              </div>
+              <h3>Coworking Space</h3>
+              <p>A comfortable workspace for your business</p>
             </div>
-            <h3>Coworking Space</h3>
-            <p>A comfortable workspace for your business</p>
           </div>
         </div>
       </div>
@@ -103,14 +93,20 @@ const blogList = [
           </NuxtLink>
         </div>
         <div class="card-list">
-          <div v-for="news in newsList" :key="news.title" class="card">
-            <img :src="news.image" :alt="news.title" class="card-img">
+          <NuxtLink
+            v-for="news in newsList"
+            :key="news.id"
+            class="card"
+            :to="news.path"
+            :aria-label="`${news.title} の詳細へ`"
+          >
+            <img v-if="news.image" :src="news.image" :alt="news.title" class="card-img">
             <div class="card-body">
               <div class="card-date">{{ news.publishedAt }}</div>
               <div class="card-title">{{ news.title }}</div>
               <div class="card-desc">{{ news.description }}</div>
             </div>
-          </div>
+          </NuxtLink>
         </div>
       </div>
     </section>
@@ -236,6 +232,7 @@ const blogList = [
   min-width: 180px;
   display: flex;
   flex-direction: column;
+  color: $color-black;
   .card-img {
     width: 100%;
     height: 192px;
@@ -283,7 +280,6 @@ const blogList = [
     background: #fff;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
-    padding: 3.2rem;
     flex: 1;
     min-width: 180px;
 
@@ -291,10 +287,31 @@ const blogList = [
       padding: 1.6rem;
     }
 
+    > .item-inner {
+      text-decoration: none;
+      display: block;
+      padding: 3.2rem;
+      height: 100%;
+      position: relative;
+    }
+
+    .anchor-arrow {
+      color: $color-gray;
+      position: absolute;
+      right: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .item-icon {
+      color: $color-black;
+    }
+
     h3 {
       font-size: 2.4rem;
       margin-top: 0.4rem;
       font-weight: bold;
+      color: $color-black;
 
       @media screen and (width <= $media-sp) {
         font-size: 1.8rem;
