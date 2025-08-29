@@ -16,7 +16,7 @@ const blogList = [
   {
     title: 'エンジニアのための時短術',
     description: '日々の業務を効率化するためのテクニックを紹介。',
-    image: '/blog2.jpg',
+    image: '',
     publishedAt: '2024-05-25'
   },
   {
@@ -59,7 +59,7 @@ const blogList = [
               <p>We provide system development services and applications.</p>
             </div>
           </div>
-          <div class="service-item">
+          <div class="service-item service-item-nico">
             <a href="https://nicoplushair.com/" target="_blank" rel="noopener noreferrer" class="item-inner">
               <div class="item-icon">
                 <ScissorsLineDashed :size="24" />
@@ -74,8 +74,8 @@ const blogList = [
               <div class="item-icon">
                 <SmilePlus :size="24" />
               </div>
-              <h3>Coworking Space</h3>
-              <p>A comfortable workspace for your business</p>
+              <h3>Machiya Coworking Space</h3>
+              <p>A comfortable workspace in a traditional townhouse</p>
             </div>
           </div>
         </div>
@@ -101,6 +101,7 @@ const blogList = [
             :aria-label="`${news.title} の詳細へ`"
           >
             <img v-if="news.image" :src="news.image" :alt="news.title" class="card-img">
+            <img v-else src="/images/news-default.jpg" :alt="news.title" class="card-img">
             <div class="card-body">
               <div class="card-date">{{ news.publishedAt }}</div>
               <div class="card-title">{{ news.title }}</div>
@@ -123,7 +124,8 @@ const blogList = [
         </div>
         <div class="card-list">
           <div v-for="blog in blogList" :key="blog.title" class="card">
-            <img :src="blog.image" :alt="blog.title" class="card-img">
+            <img v-if="blog.image" :src="blog.image" :alt="blog.title" class="card-img">
+            <img v-else src="/images/blog-default.jpg" :alt="blog.title" class="card-img">
             <div class="card-body">
               <div class="card-date">{{ blog.publishedAt }}</div>
               <div class="card-title">{{ blog.title }}</div>
@@ -243,9 +245,15 @@ const blogList = [
   display: flex;
   flex-direction: column;
   color: $color-black;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+
   .card-img {
     width: 100%;
-    height: 192px;
+    aspect-ratio: 16 / 9;
     border-radius: 1rem;
     overflow: hidden;
     object-fit: cover;
@@ -292,6 +300,8 @@ const blogList = [
     border: 1px solid #e0e0e0;
     flex: 1;
     min-width: 180px;
+    transition: all 0.3s ease;
+    overflow: hidden;
 
     > .item-inner {
       text-decoration: none;
@@ -299,6 +309,12 @@ const blogList = [
       padding: 3.2rem;
       height: 100%;
       position: relative;
+      background-image: none;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: all 0.3s ease;
+      background-color: transparent;
 
       @media screen and (width <= $media-sp) {
         padding: 2.0rem;
@@ -331,6 +347,31 @@ const blogList = [
       font-size: 1.6rem;
       margin-top: 0.8rem;
       color: $color-primary;
+    }
+
+    &:hover {
+      &.service-item-nico {
+        transform: scale(1.03);
+        > .item-inner {
+          background-image: url('/images/service-nico.jpg');
+        }
+        
+        .anchor-arrow {
+          color: #fff;
+        }
+
+        .item-icon {
+          color: #fff;
+        }
+
+        h3 {
+          color: #fff;
+        }
+        
+        p {
+          color: #fff;
+        }
+      }
     }
   }
 }
