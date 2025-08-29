@@ -48,8 +48,8 @@ watch(isSpView, (newValue) => {
       <button 
         v-if="isSpView"
         class="hamburger-btn" 
-        @click="isMenuOpen = !isMenuOpen"
         aria-label="メニューを開く"
+        @click="isMenuOpen = !isMenuOpen"
       >
         <UIcon 
           name="i-heroicons-bars-3"

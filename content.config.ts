@@ -12,8 +12,8 @@ export default defineContentConfig({
         publishedAt: z.string()
       })
     }),
-    eng: defineCollection({
-      source: 'eng/*.md',
+    blog: defineCollection({
+      source: 'blog/*.md',
       type: 'page',
       schema: z.object({
         title: z.string(),
