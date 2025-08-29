@@ -3,7 +3,7 @@
 const navLinks = [
   { name: 'TOP', path: '/' },
   { name: 'NEWS', path: '/news' },
-  { name: 'BLOG', path: '/eng' },
+  { name: 'BLOG', path: '/blog' },
   { name: 'CONTACT', path: '/contact' }
 ];
 

@@ -3,12 +3,12 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-// NEWS詳細
-const { data: news } = await useAsyncData(route.path, () => {
-  return queryCollection('news').path(route.path).first()
+// BLOG詳細
+const { data: blog } = await useAsyncData(route.path, () => {
+  return queryCollection('blog').path(route.path).first()
 });
 
-console.log(news.value);
+console.log(blog.value);
 
 // 戻るボタンの処理
 const goBack = () => {
@@ -16,7 +16,7 @@ const goBack = () => {
   if (window.history.length > 1) {
     window.history.back();
   } else {
-    navigateTo('/news');
+    navigateTo('/blog');
   }
 };
 </script>
@@ -24,13 +24,13 @@ const goBack = () => {
 <template>
   <PageWrapper>
     <SectionWrapper>
-      <template v-if="news">
+      <template v-if="blog">
         <div class="content-heading">
-          <h1 class="content-title">{{ news.title }}</h1>
-          <div class="content-date">{{ formatDate(news.publishedAt) }}</div>
+          <h1 class="content-title">{{ blog.title }}</h1>
+          <div class="content-date">{{ formatDate(blog.publishedAt) }}</div>
         </div>
         <div class="content-body">
-          <ContentRenderer :value="news" />
+          <ContentRenderer :value="blog" />
         </div>
       </template>
       <template v-else>
