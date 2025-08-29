@@ -8,11 +8,12 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@vueuse/nuxt',
   ],
   css: [
     '~/assets/css/normalize.css',
-    '~/assets/css/base.scss'
+    '~/assets/css/base.scss',
   ],
   vite: {
     css: {

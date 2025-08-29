@@ -164,7 +164,7 @@ const blogList = [
 
   @media screen and (width <= $media-sp) {
     margin-top: 0;
-    padding: 0;
+    padding: 6.0rem 0 0;
   }
 
   .hero-logo {
