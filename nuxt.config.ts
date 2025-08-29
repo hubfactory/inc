@@ -8,6 +8,30 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@nuxt/ui'
-  ]
+    '@nuxt/ui',
+    '@vueuse/nuxt',
+  ],
+  css: [
+    '~/assets/css/normalize.css',
+    '~/assets/css/base.scss',
+  ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "~/assets/css/variables.scss" as *;'
+        }
+      }
+    }
+  },
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap'
+        }
+      ]
+    }
+  }
 })
