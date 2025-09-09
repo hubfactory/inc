@@ -1,4 +1,10 @@
 <script setup lang="ts">
+// meta
+useSeoMeta({
+  title: 'お問い合わせ',
+})
+
+// Google Form URL
 const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdu91QpjZWM2urRJCfAnOvly6m3EUKMdUoGMX4LtcnhO0i-PA/viewform?embedded=true";
 </script>
 

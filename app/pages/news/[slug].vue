@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-
 const route = useRoute();
 
 // NEWS詳細
 const { data: news } = await useAsyncData(route.path, () => {
   return queryCollection('news').path(route.path).first()
 });
+
+useSeoMeta({
+  title: () => news.value?.title ?? 'HUBFACTORY NEWS',
+  description: () => news.value?.description ?? '',
+  ogTitle: () => news.value?.title ?? 'HUBFACTORY NEWS',
+  ogDescription: () => news.value?.description ?? '',
+})
 
 // 戻るボタンの処理
 const goBack = () => {

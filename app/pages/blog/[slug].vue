@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-
 const route = useRoute();
 
 // BLOG詳細
@@ -8,7 +6,12 @@ const { data: blog } = await useAsyncData(route.path, () => {
   return queryCollection('blog').path(route.path).first()
 });
 
-console.log(blog.value);
+useSeoMeta({
+  title: () => blog.value?.title ?? 'HUBFACTORY BLOG',
+  description: () => blog.value?.description ?? '',
+  ogTitle: () => blog.value?.title ?? 'HUBFACTORY BLOG',
+  ogDescription: () => blog.value?.description ?? '',
+})
 
 // 戻るボタンの処理
 const goBack = () => {

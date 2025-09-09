@@ -3,6 +3,11 @@ import type { CardItem } from '@/types/card';
 
 import { CodeXml, ScissorsLineDashed, SmilePlus, ChevronRight } from 'lucide-vue-next';
 
+// meta
+useSeoMeta({
+  title: 'TOP',
+})
+
 // NEWS（最新3件）
 const { data: newsList } = await useAsyncData('top-news', () =>
   queryCollection('news').order('publishedAt', 'DESC').limit(3).all() as Promise<CardItem[]>,
@@ -43,8 +48,8 @@ const { data: blogList } = await useAsyncData('top-blog', () =>
               <div class="item-icon">
                 <CodeXml :size="24" />
               </div>
-              <h3>System Development</h3>
-              <p>We provide system development services and applications.</p>
+              <h3>System & Application Development</h3>
+              <p>We provide system and application development services</p>
             </div>
           </div>
           <div class="service-item service-item-nico">
