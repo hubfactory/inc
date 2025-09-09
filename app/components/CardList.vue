@@ -34,6 +34,7 @@ const defaultImage = props.mode === 'news' ? '/images/news-default.jpg' : '/imag
 <style lang="scss" scoped>
 .card-list {
   display: flex;
+  flex-wrap: wrap;
   gap: 3.2rem;
   @media screen and (width <= $media-sp) {
     flex-direction: column;
