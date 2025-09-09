@@ -43,7 +43,7 @@ const defaultImage = props.mode === 'news' ? '/images/news-default.jpg' : '/imag
 .card {
   background: #fff;
   overflow: hidden;
-  flex: 1;
+  flex: 0 1 calc((100% - 6.4rem) / 3);
   min-width: 180px;
   display: flex;
   flex-direction: column;

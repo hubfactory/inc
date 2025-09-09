@@ -8,8 +8,6 @@ const { data: news } = await useAsyncData(route.path, () => {
   return queryCollection('news').path(route.path).first()
 });
 
-console.log(news.value);
-
 // 戻るボタンの処理
 const goBack = () => {
   // 前のページがある場合は戻る、ない場合はニュース一覧ページへ
@@ -71,6 +69,77 @@ const goBack = () => {
 .content-body {
   font-size: 1.6rem;
   margin-top: 4.0rem;
+  line-height: 1.8;
+
+  :deep(img) {
+    width: 100%;
+    max-width: 640px;
+    margin: 2.4rem auto;
+    display: block;
+  }
+
+  :deep(a) {
+    text-decoration: underline;
+    color: $color-link;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  :deep(p) {
+    margin-bottom: 1.6rem;
+  }
+
+  :deep(h2) {
+    margin-top: 3.2rem;
+    margin-bottom: 1.6rem;
+    font-size: 2.4rem;
+    font-weight: bold;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid $color-border;
+
+    a {
+      text-decoration: none;
+      color: $color-black;
+    }
+  }
+
+  :deep(h3) {
+    margin-top: 2.0rem;
+    margin-bottom: 1.2rem;
+    font-size: 2.0rem;
+    font-weight: bold;
+
+    a {
+      text-decoration: none;
+      color: $color-black;
+    }
+  }
+
+  :deep(table) {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-bottom: 1px solid $color-border;
+    th, td {
+      border-top: 1px solid $color-border;
+      padding: 2.4rem;
+      font-weight: normal;
+
+      @media screen and (width <= $media-sp) {
+        padding: 1.6rem;
+      }
+    }
+    th {
+      background: $color-bg-gray;
+      text-align: left;
+    }
+    td {
+      background: #fff;
+    }
+  }
 }
 
 .content-footer {
