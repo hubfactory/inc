@@ -25,6 +25,8 @@ const props = withDefaults(defineProps<{
   aspect: 16/9,
   radiusPct: 0.18,
   colors: () => ({ system: '#1e90ff', salon: '#ff4d6d', cowork: '#00c49a' }),
+  headline: '',
+  subline: '',
   glow: true,
   particleCount: 700,
   idleAlpha: 0.28,
@@ -90,7 +92,7 @@ interface P {
   x: number; y: number; vx: number; vy: number; size: number; col: string;
   life: number; max: number; phase: Phase; seed: number;
 }
-let particles: P[] = []
+const particles: P[] = []
 
 function burst(x: number, y: number) {
   const count = props.particleCount
@@ -103,7 +105,7 @@ function burst(x: number, y: number) {
       vx: Math.cos(a) * sp,
       vy: Math.sin(a) * sp,
       size: 1 + Math.random() * 2,
-      col: [props.colors.system, props.colors.salon, props.colors.cowork][i % 3],
+      col: [props.colors.system, props.colors.salon, props.colors.cowork][i % 3] ?? '',
       life: 0,
       max: 0.6 + Math.random() * 1.0,
       phase: 'burst',
@@ -198,8 +200,8 @@ onMounted(() => {
 
   const nodes = [c1.value!, c2.value!, c3.value!]
   nodes.forEach((n, i) => {
-    n.setAttribute('cx', String(startPos[i].x))
-    n.setAttribute('cy', String(startPos[i].y))
+    n.setAttribute('cx', String(startPos[i]?.x))
+    n.setAttribute('cy', String(startPos[i]?.y))
     n.setAttribute('r', String(R))
     n.style.opacity = '0'
   })
@@ -207,18 +209,28 @@ onMounted(() => {
   tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
 
   // 1) 外から出てくる + フェードイン
-  tl.fromTo(nodes[0],
-    { attr: { cx: startPos[0].x, cy: startPos[0].y }, opacity: 0 },
-    { duration: 0.9, attr: { cx: cx - orbitR, cy }, opacity: 1 }, 0
-  )
-  tl.fromTo(nodes[1],
-    { attr: { cx: startPos[1].x, cy: startPos[1].y }, opacity: 0 },
-    { duration: 0.9, attr: { cx: cx + orbitR, cy }, opacity: 1 }, 0
-  )
-  tl.fromTo(nodes[2],
-    { attr: { cx: startPos[2].x, cy: startPos[2].y }, opacity: 0 },
-    { duration: 0.9, attr: { cx, cy: cy - orbitR }, opacity: 1 }, 0
-  )
+  if (nodes[0] && startPos[0]) {
+    tl.fromTo(
+      nodes[0],
+      { attr: { cx: startPos[0].x, cy: startPos[0].y }, opacity: 0 },
+      { duration: 0.9, attr: { cx: cx - orbitR, cy }, opacity: 1 }, 0
+    )
+  }
+  if (nodes[1] && startPos[1]) {
+    tl.fromTo(
+      nodes[1],
+      { attr: { cx: startPos[1]?.x, cy: startPos[1]?.y }, opacity: 0 },
+      { duration: 0.9, attr: { cx: cx + orbitR, cy }, opacity: 1 }, 0
+    )
+  }
+  if (nodes[2] && startPos[2]) {
+    tl.fromTo(
+      nodes[2],
+      { attr: { cx: startPos[2]?.x, cy: startPos[2]?.y }, opacity: 0 },
+      { duration: 0.9, attr: { cx, cy: cy - orbitR }, opacity: 1 }, 0
+    )
+  }
+
 
   // 2) 軌道回転
   const orbitDummy = { t: 0 }
@@ -228,12 +240,12 @@ onMounted(() => {
     const p1 = orbitPoint(cx, cy, orbitR, angle)
     const p2 = orbitPoint(cx, cy, orbitR, angle + (Math.PI * 2) / 3)
     const p3 = orbitPoint(cx, cy, orbitR, angle + (Math.PI * 4) / 3)
-    nodes[0].setAttribute('cx', String(p1.x))
-    nodes[0].setAttribute('cy', String(p1.y))
-    nodes[1].setAttribute('cx', String(p2.x))
-    nodes[1].setAttribute('cy', String(p2.y))
-    nodes[2].setAttribute('cx', String(p3.x))
-    nodes[2].setAttribute('cy', String(p3.y))
+    nodes[0]?.setAttribute('cx', String(p1.x))
+    nodes[0]?.setAttribute('cy', String(p1.y))
+    nodes[1]?.setAttribute('cx', String(p2.x))
+    nodes[1]?.setAttribute('cy', String(p2.y))
+    nodes[2]?.setAttribute('cx', String(p3.x))
+    nodes[2]?.setAttribute('cy', String(p3.y))
   }
   tl.to(orbitDummy, { t: 1, duration: props.orbitSec, ease: 'none', onUpdate: orbitUpdate }, 0.9)
 
@@ -278,7 +290,7 @@ onBeforeUnmount(() => {
         </g>
       </svg>
 
-      <canvas ref="canvas" class="canvas-layer"></canvas>
+      <canvas ref="canvas" class="canvas-layer" />
 
       <div class="copy-layer">
         <slot name="logo" />
