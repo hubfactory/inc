@@ -3,7 +3,7 @@
 const navLinks = [
   { name: 'TOP', path: '/' },
   { name: 'NEWS', path: '/news' },
-  { name: 'BLOG', path: '/eng' },
+  { name: 'BLOG', path: '/blog' },
   { name: 'CONTACT', path: '/contact' }
 ];
 
@@ -48,8 +48,8 @@ watch(isSpView, (newValue) => {
       <button 
         v-if="isSpView"
         class="hamburger-btn" 
-        @click="isMenuOpen = !isMenuOpen"
         aria-label="メニューを開く"
+        @click="isMenuOpen = !isMenuOpen"
       >
         <UIcon 
           name="i-heroicons-bars-3"

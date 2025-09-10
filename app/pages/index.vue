@@ -1,35 +1,28 @@
 <script setup lang="ts">
+import type { CardItem } from '@/types/card';
+
 import { CodeXml, ScissorsLineDashed, SmilePlus, ChevronRight } from 'lucide-vue-next';
+
+// meta
+useSeoMeta({
+  title: 'TOP',
+})
 
 // NEWS（最新3件）
 const { data: newsList } = await useAsyncData('top-news', () =>
-  queryCollection('news').order('publishedAt', 'DESC').limit(3).all()
-)
+  queryCollection('news').order('publishedAt', 'DESC').limit(3).all() as Promise<CardItem[]>,
+  { default: () => [] }
+);
 
-const blogList = [
-  {
-    title: 'Nuxt4で作る最新コーポレートサイト',
-    description: 'Nuxt4と@nuxt/contentを活用したサイト制作のポイントを解説。',
-    image: '/blog1.jpg',
-    publishedAt: '2024-06-02'
-  },
-  {
-    title: 'エンジニアのための時短術',
-    description: '日々の業務を効率化するためのテクニックを紹介。',
-    image: '',
-    publishedAt: '2024-05-25'
-  },
-  {
-    title: 'Vue3 Composition API入門',
-    description: 'Vue3の新しいAPIの使い方をわかりやすく解説。',
-    image: '/blog3.jpg',
-    publishedAt: '2024-05-10'
-  }
-]
+// BLOG（最新3件）
+const { data: blogList } = await useAsyncData('top-blog', () =>
+  queryCollection('blog').order('publishedAt', 'DESC').limit(3).all() as Promise<CardItem[]>,
+  { default: () => [] }
+);
 </script>
 
 <template>
-  <div class="top">
+  <PageWrapper>
     <!-- ヒーローイメージ -->
     <section class="hero">
       <HeroSynergy
@@ -55,8 +48,8 @@ const blogList = [
               <div class="item-icon">
                 <CodeXml :size="24" />
               </div>
-              <h3>System Development</h3>
-              <p>We provide system development services and applications.</p>
+              <h3>System & Application Development</h3>
+              <p>We provide system and application development services</p>
             </div>
           </div>
           <div class="service-item service-item-nico">
@@ -83,77 +76,45 @@ const blogList = [
     </section>
 
     <!-- NEWS最新3件 -->
-    <section class="section-wrapper">
-      <div class="container">
-        <div class="section-header">
-          <h2>News</h2>
-          <NuxtLink to="/news" class="more-btn">
-            <span>more</span>
-            <ChevronRight :size="24" />
-          </NuxtLink>
-        </div>
-        <div class="card-list">
-          <NuxtLink
-            v-for="news in newsList"
-            :key="news.id"
-            class="card"
-            :to="news.path"
-            :aria-label="`${news.title} の詳細へ`"
-          >
-            <img v-if="news.image" :src="news.image" :alt="news.title" class="card-img">
-            <img v-else src="/images/news-default.jpg" :alt="news.title" class="card-img">
-            <div class="card-body">
-              <div class="card-date">{{ news.publishedAt }}</div>
-              <div class="card-title">{{ news.title }}</div>
-              <div class="card-desc">{{ news.description }}</div>
-            </div>
-          </NuxtLink>
-        </div>
-      </div>
-    </section>
+    <SectionWrapper>
+      <template #header>
+        <h2>News</h2>
+        <NuxtLink to="/news" class="more-btn">
+          <span>more</span>
+          <ChevronRight :size="24" />
+        </NuxtLink>
+      </template>
+      <CardList :items="newsList" mode="news" />
+    </SectionWrapper>
 
     <!-- BLOG最新3件 -->
-    <section class="section-wrapper">
-      <div class="container">
-        <div class="section-header">
-          <h2>Blog</h2>
-          <NuxtLink to="/eng" class="more-btn">
-            <span>more</span>
-            <ChevronRight :size="24" />
-          </NuxtLink>
-        </div>
-        <div class="card-list">
-          <div v-for="blog in blogList" :key="blog.title" class="card">
-            <img v-if="blog.image" :src="blog.image" :alt="blog.title" class="card-img">
-            <img v-else src="/images/blog-default.jpg" :alt="blog.title" class="card-img">
-            <div class="card-body">
-              <div class="card-date">{{ blog.publishedAt }}</div>
-              <div class="card-title">{{ blog.title }}</div>
-              <div class="card-desc">{{ blog.description }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <SectionWrapper>
+      <template #header>
+        <h2>Blog</h2>
+        <NuxtLink to="/blog" class="more-btn">
+          <span>more</span>
+          <ChevronRight :size="24" />
+        </NuxtLink>
+      </template>
+      <CardList :items="blogList" mode="blog" />
+    </SectionWrapper>
 
     <!-- 会社概要 -->
-    <section class="section-wrapper">
-      <div class="container">
-        <div class="section-header">
-          <h2>Company Overview</h2>
-        </div>
-        <table class="company-table">
-          <tbody>
-            <tr><th>会社名</th><td>株式会社HUBFACTORY</td></tr>
-            <tr><th>所在地</th><td>新潟県上越市</td></tr>
-            <tr><th>設立</th><td>2014年5月</td></tr>
-            <tr><th>代表</th><td>太田 昌幸</td></tr>
-            <tr><th>事業内容</th><td>システム開発、美容室運営、コワーキングスペース運営</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </div>
+    <SectionWrapper>
+      <template #header>
+        <h2>Company Overview</h2>
+      </template>
+      <table class="company-table">
+        <tbody>
+          <tr><th>会社名</th><td>株式会社HUBFACTORY</td></tr>
+          <tr><th>所在地</th><td>新潟県上越市</td></tr>
+          <tr><th>設立</th><td>2014年5月</td></tr>
+          <tr><th>代表</th><td>太田 昌幸</td></tr>
+          <tr><th>事業内容</th><td>システム開発、美容室運営、コワーキングスペース運営</td></tr>
+        </tbody>
+      </table>
+    </SectionWrapper>
+  </PageWrapper>
 </template>
 
 <style lang="scss" scoped>
@@ -164,7 +125,7 @@ const blogList = [
 
   @media screen and (width <= $media-sp) {
     margin-top: 0;
-    padding: 6.0rem 0 0;
+    padding: 0;
   }
 
   .hero-logo {
@@ -173,117 +134,6 @@ const blogList = [
     @media screen and (width <= $media-sp) {
       width: 160px;
     }
-  }
-}
-
-.section-wrapper {
-  padding: 6.4rem 3.2rem;
-  position: relative;
-
-  @media screen and (width <= $media-sp) {
-    padding: 4.0rem 2.0rem;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40%;
-    height: 1px;
-    background-color: $color-separator;
-  }
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 3.2rem;
-
-  @media screen and (width <= $media-sp) {
-    margin-bottom: 1.6rem;
-  }
-
-  h2 {
-    font-size: 2.4rem;
-    font-weight: bold;
-  }
-  .more-btn {
-    color: $color-primary;
-    font-size: 2.0rem;
-    text-decoration: underline;
-    font-weight: bold;
-    display: flex;
-    align-items: flex-end;
-    gap: 0.2rem;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.card-list {
-  display: flex;
-  gap: 3.2rem;
-  @media screen and (width <= $media-sp) {
-    flex-direction: column;
-  }
-}
-
-.card {
-  background: #fff;
-  overflow: hidden;
-  flex: 1;
-  min-width: 180px;
-  display: flex;
-  flex-direction: column;
-  color: $color-black;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.03);
-  }
-
-  .card-img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 1rem;
-    overflow: hidden;
-    object-fit: cover;
-    background: #eee;
-  }
-  .card-body {
-    padding: 2.0rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-
-    @media screen and (width <= $media-sp) {
-      padding: 1.2rem 0;
-    }
-  }
-  .card-date {
-    font-size: 1.6rem;
-    color: $color-gray;
-  }
-  .card-title {
-    font-size: 2.0rem;
-    font-weight: bold;
-
-    @media screen and (width <= $media-sp) {
-      font-size: 1.8rem;
-    }
-  }
-  .card-desc {
-    font-size: 1.6rem;
-    color: $color-primary;
   }
 }
 

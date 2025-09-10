@@ -1,11 +1,13 @@
 <script setup lang="ts">
-// ヘッダー・フッターコンポーネントのimport文を削除（auto import対応）
-
-// consts
-import {
-  PAGE_SEGMENT,
-  SHOW_LANGUAGE_SWITCH_PAGE,
-} from '@/constants/common';
+// 共通metaタグ
+useSeoMeta({
+  titleTemplate: (title) => title ? `${title} | 株式会社HUBFACTORY` : '株式会社HUBFACTORY',
+  description: '株式会社HUBFACTORYはシステム開発・美容室運営・コワーキングスペース運営の3つを軸にシステムとリアルの融合で社会に価値を届けます',
+  ogTitle: '株式会社HUBFACTORY',
+  ogDescription: '株式会社HUBFACTORYはシステム開発・美容室運営・コワーキングスペース運営の3つを軸にシステムとリアルの融合で社会に価値を届けます',
+  ogImage: 'https://hubfactory.jp/og-image.jpg',
+  twitterCard: 'summary_large_image'
+})
 </script>
 
 <template>

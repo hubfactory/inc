@@ -1,73 +1,161 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { format } from 'date-fns'
+const route = useRoute();
 
-const route = useRoute()
-
+// NEWS詳細
 const { data: news } = await useAsyncData(route.path, () => {
   return queryCollection('news').path(route.path).first()
+});
+
+useSeoMeta({
+  title: () => news.value?.title ?? 'HUBFACTORY NEWS',
+  description: () => news.value?.description ?? '',
+  ogTitle: () => news.value?.title ?? 'HUBFACTORY NEWS',
+  ogDescription: () => news.value?.description ?? '',
 })
 
-console.log(news.value)
-
-const formatDate = (dateStr: string) => {
-  return format(new Date(dateStr), 'yyyy年MM月dd日')
-}
+// 戻るボタンの処理
+const goBack = () => {
+  // 前のページがある場合は戻る、ない場合はニュース一覧ページへ
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    navigateTo('/news');
+  }
+};
 </script>
 
 <template>
-  <div class="news-detail-page">
-    <div class="container">
-      <ContentRenderer v-if="news" :value="news" />
-      <div v-else>
+  <PageWrapper>
+    <SectionWrapper>
+      <template v-if="news">
+        <div class="content-heading">
+          <h1 class="content-title">{{ news.title }}</h1>
+          <div class="content-date">{{ formatDate(news.publishedAt) }}</div>
+        </div>
+        <div class="content-body">
+          <ContentRenderer :value="news" />
+        </div>
+      </template>
+      <template v-else>
         <p>記事が見つかりませんでした。</p>
+      </template>
+
+      <div class="content-footer">
+        <UButton
+          color="neutral"
+          variant="subtle"
+          size="lg"
+          icon="i-heroicons-arrow-left"
+          class="back-button"
+          @click="goBack"
+        >
+          前のページに戻る
+        </UButton>
       </div>
-    </div>
-  </div>
+    </SectionWrapper>
+  </PageWrapper>
 </template>
 
 <style lang="scss" scoped>
-.news-detail-page {
-  font-family: 'Noto Sans JP', sans-serif;
-  .news-title {
-    font-size: 2.4rem;
-    font-weight: 700;
-    color: #009966;
-    margin-bottom: 1.6rem;
-    text-align: center;
+.content-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+
+  @media screen and (width <= $media-sp) {
+    font-size: 2.0rem;
   }
-  .news-date {
-    font-size: 1.44rem;
-    color: #009966;
-    text-align: center;
-    margin-bottom: 1.6rem;
-  }
-  .news-img {
+}
+
+.content-date {
+  font-size: 1.6rem;
+  color: $color-gray;
+}
+
+.content-body {
+  font-size: 1.6rem;
+  margin-top: 4.0rem;
+  line-height: 1.8;
+
+  :deep(img) {
+    width: 100%;
+    max-width: 640px;
+    margin: 2.4rem auto;
     display: block;
-    margin: 0 auto 1.6rem auto;
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    background: #eee;
   }
-  .news-desc {
-    font-size: 1.55rem;
-    color: #555;
-    margin-bottom: 2.4rem;
-    text-align: center;
+
+  :deep(a) {
+    text-decoration: underline;
+    color: $color-link;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
-  .news-body {
-    font-size: 1.6rem;
-    color: #222;
-    line-height: 1.9;
+
+  :deep(p) {
+    margin-bottom: 1.6rem;
+  }
+
+  :deep(h2) {
+    margin-top: 3.2rem;
+    margin-bottom: 1.6rem;
+    font-size: 2.4rem;
+    font-weight: bold;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid $color-border;
+
+    a {
+      text-decoration: none;
+      color: $color-black;
+    }
+  }
+
+  :deep(h3) {
+    margin-top: 2.0rem;
+    margin-bottom: 1.2rem;
+    font-size: 2.0rem;
+    font-weight: bold;
+
+    a {
+      text-decoration: none;
+      color: $color-black;
+    }
+  }
+
+  :deep(table) {
+    width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    border-collapse: collapse;
+    border-bottom: 1px solid $color-border;
+    th, td {
+      border-top: 1px solid $color-border;
+      padding: 2.4rem;
+      font-weight: normal;
+
+      @media screen and (width <= $media-sp) {
+        padding: 1.6rem;
+      }
+    }
+    th {
+      background: $color-bg-gray;
+      text-align: left;
+    }
+    td {
+      background: #fff;
+    }
   }
 }
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding-left: 1.6rem;
-  padding-right: 1.6rem;
+
+.content-footer {
+  margin-top: 6.0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
 }
-</style> 
+
+:deep(.back-button) {
+  padding: 1.2rem;
+}
+</style>

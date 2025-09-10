@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   ],
   css: [
     '~/assets/css/normalize.css',
-    '~/assets/css/base.scss',
+    '~/assets/css/base.css',
   ],
   vite: {
     css: {
