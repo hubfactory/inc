@@ -1,0 +1,82 @@
+name: Run the Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    name: Run the build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: |
+          cp ./.env.$BRANCH_NAME ./.env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate static files
+        run: npm run generate
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_IAM_ROLE_NAME }}
+          aws-region: ap-northeast-1
+
+      - name: get-caller-identity is allowed to run on role.
+        run: aws sts get-caller-identity
+
+      - name: Deploy to S3
+        working-directory: frontend/.output/public
+        run: |
+          aws s3 sync . s3://hubfactory-com --delete --exclude "logs/*"
+
+      - name: Cloudfront invalidation
+        run: |
+          export AWS_MAX_ATTEMPTS=20
+          aws cloudfront create-invalidation --distribution-id EC6T5T151WNHW --paths "/*"
+
+#      - name: DevelopTest Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          role-to-assume: arn:aws:iam::812126156410:role/github-oidc-role
+#          aws-region: ap-northeast-1
+#
+#      - name: DevelopTest get-caller-identity is allowed to run on role.
+#        run: aws sts get-caller-identity
+#
+#      - name: DevelopTest Deploy to S3
+#        working-directory: front/.output/public
+#        env:
+#          BUCKET_NAME: testdevelop.shikigakucloud.com
+#        run: |
+#          aws s3 sync . s3://${BUCKET_NAME} --delete --exclude "logs/*"
+#
+#      - name: DevelopTest Deploy to lambda
+#        working-directory: front/.output/server
+#        env:
+#          LAMBDA_NAME: dev-skg04p
+#        run: |
+#          aws lambda update-function-code --function-name ${LAMBDA_NAME} --zip-file fileb://package.zip --publish
+#
+#      - name: DevelopTest Cloudfront invalidation
+#        env:
+#          CLOUD_FRONT_ID: E27MW6Q3T21MA7
+#        run: |
+#          export AWS_MAX_ATTEMPTS=20
+#          aws cloudfront create-invalidation --distribution-id ${CLOUD_FRONT_ID} --paths "/*"
