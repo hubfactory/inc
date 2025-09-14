@@ -19,6 +19,8 @@ const { data: blogList } = await useAsyncData('top-blog', () =>
   queryCollection('blog').order('publishedAt', 'DESC').limit(3).all() as Promise<CardItem[]>,
   { default: () => [] }
 );
+
+console.log('ok')
 </script>
 
 <template>
